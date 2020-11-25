@@ -1,11 +1,12 @@
 /*
  *  Microassignment: Probing Hash Table addElement and removeElement
  *
- *  LinearHashTable: Yet another Hash Table Implementation
+ *  QuadraticHashTable: Yet another Hash Table Implementation
  * 
  *  Contributors:
  *    Bolong Zeng <bzeng@wsu.edu>, 2018
  *    Aaron S. Crandall <acrandal@wsu.edu>, 2019
+ *    Marcel Mukundi <marcel.mukundi@wsu.edu>, 2020
  * 
  *  Copyright:
  *   For academic use only under the Creative Commons
@@ -79,7 +80,7 @@ class QuadraticHashTable<K, V> extends HashTableBase<K, V> {
             insertionAttempts++;
             currentSlotIndex = (hash + QUADRATIC_COEFFICIENT * insertionAttempts * insertionAttempts + QUADRATIC_CONSTANT)
             % size;
-            
+
             // Once every slot allowable by the function has been visited, return
             boolean allProbed = true;
             for(boolean p: probed){
@@ -126,10 +127,9 @@ class QuadraticHashTable<K, V> extends HashTableBase<K, V> {
         int currentSlotIndex = (hash + QUADRATIC_COEFFICIENT * deletionAttempts * deletionAttempts + QUADRATIC_CONSTANT)
                 % size;
 
-        // The first index visited;
-        // If the index ever matches this one, the function will simply loop, so we
-        // should return
-        final int firstIndex = currentSlotIndex;
+        // The indecies visited;
+        // The quadratic pattern will not repeat, so instead if every node has been visited, return
+        final boolean[] probed = new boolean[size];
 
         // Continues to probe until the slot the probing has led to matches the current
         // one
@@ -139,10 +139,13 @@ class QuadraticHashTable<K, V> extends HashTableBase<K, V> {
             currentSlotIndex = (hash + QUADRATIC_COEFFICIENT * deletionAttempts * deletionAttempts + QUADRATIC_CONSTANT)
                     % size;
 
-            // Once every slot allowable by the function has been visited,
-            // the key must not be present; return
-            if (firstIndex == currentSlotIndex)
-                return;
+            // Once every slot allowable by the function has been visited, return
+            boolean allProbed = true;
+            for(boolean p: probed){
+                allProbed = allProbed && p;
+            }
+            if(allProbed)
+            return;
         }
 
         /*
@@ -213,7 +216,7 @@ class QuadraticHashTable<K, V> extends HashTableBase<K, V> {
             _local_prime_index++;
 
             HasherBase<K> hasher = _hasher;
-            LinearHashTable<K, V> new_hash = new LinearHashTable<K, V>(hasher, _primes[_local_prime_index]);
+            QuadraticHashTable<K, V> new_hash = new QuadraticHashTable<K, V>(hasher, _primes[_local_prime_index]);
 
             for (HashItem<K, V> item : _items) {
                 if (item.isEmpty() == false) {
