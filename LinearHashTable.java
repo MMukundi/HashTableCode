@@ -81,7 +81,7 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
             // If this item is already present, ie the keys match, return 
             if(key.equals(_items.get(currentSlotIndex).getKey()))
                 return;
-            // Increments to the next deletion index
+            // Increments to the next insertion index
             currentSlotIndex = (hash+LINEAR_COEFFICIENT*(++insertionAttempts)+LINEAR_CONSTANT)%size;
             // Once every slot allowable by the function has been visited, return
             if(firstIndex==currentSlotIndex)
@@ -131,7 +131,7 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
 
        // Continues to probe until the slot the probing has led to matches the current one
        while(!key.equals(_items.get(currentSlotIndex).getKey())){
-           // Increments to the next insertion index
+           // Increments to the next deletion index
            currentSlotIndex = (hash+LINEAR_COEFFICIENT*(++deletionAttempts)+LINEAR_CONSTANT)%size;
            
            // Once every slot allowable by the function has been visited, 
