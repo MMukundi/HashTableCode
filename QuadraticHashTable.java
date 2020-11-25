@@ -66,10 +66,9 @@ class QuadraticHashTable<K, V> extends HashTableBase<K, V> {
         int currentSlotIndex = (hash + QUADRATIC_COEFFICIENT * insertionAttempts * insertionAttempts + QUADRATIC_CONSTANT)
         % size;
 
-        // The first index visited;
-        // If the index ever matches this one, the function will simply loop, so we
-        // should return
-        final int firstIndex = currentSlotIndex;
+        // The indecies visited;
+        // The quadratic pattern will not repeat, so instead if every node has been visited, return
+        final boolean[] probed = new boolean[size];
 
         // Continues to probe until the slot the probing has led to is empty
         while (!_items.get(currentSlotIndex).isEmpty()) {
@@ -80,9 +79,14 @@ class QuadraticHashTable<K, V> extends HashTableBase<K, V> {
             insertionAttempts++;
             currentSlotIndex = (hash + QUADRATIC_COEFFICIENT * insertionAttempts * insertionAttempts + QUADRATIC_CONSTANT)
             % size;
+            
             // Once every slot allowable by the function has been visited, return
-            if (firstIndex == currentSlotIndex)
-                return;
+            boolean allProbed = true;
+            for(boolean p: probed){
+                allProbed = allProbed && p;
+            }
+            if(allProbed)
+            return;
         }
 
         /*
