@@ -61,8 +61,6 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
  
         // Calculate hash based on key
         int hash = super.getHash(key);
-
-        // MA TODO: find empty slot to insert (update HashItem as necessary)
         
         // The number of failed insertions
         int insertionAttempts = 0;
@@ -117,9 +115,6 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
         // Calculate hash from key
         int hash = super.getHash(key);
 
-        // MA TODO: find slot to remove. Remember to check for infinite loop!
-        //  ALSO: Use lazy deletion - see structure of HashItem
-
        // The number of failed deletions
        int deletionAttempts = 0;
 
@@ -152,8 +147,6 @@ class LinearHashTable<K, V> extends HashTableBase<K, V>
        */
        // Empties the appropriate index
        HashItem<K,V> hItem = _items.get(currentSlotIndex);
-    //    hItem.setKey(null);
-    //    hItem.setValue(null);
        hItem.setIsEmpty(true);
 
        // Decrements the item count
